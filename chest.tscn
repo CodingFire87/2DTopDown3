@@ -1,0 +1,79 @@
+[gd_scene load_steps=9 format=3 uid="uid://dniwc0kyblps"]
+
+[ext_resource type="Script" path="res://chest.gd" id="1_ig7hs"]
+[ext_resource type="Texture2D" uid="uid://bus1mq6o6gme4" path="res://mystic_woods/sprites/objects/chest_01.png" id="1_nst5e"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rsyyj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_venrv"]
+size = Vector2(12, 5)
+
+[sub_resource type="Animation" id="Animation_gpkrb"]
+resource_name = "Open"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 3]
+}
+
+[sub_resource type="Animation" id="Animation_watvi"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b02ix"]
+_data = {
+"Open": SubResource("Animation_gpkrb"),
+"RESET": SubResource("Animation_watvi")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t56cl"]
+size = Vector2(28, 23)
+
+[node name="Chest" type="StaticBody2D" groups=["minimap_objects"]]
+collision_layer = 2
+collision_mask = 5
+physics_material_override = SubResource("PhysicsMaterial_rsyyj")
+script = ExtResource("1_ig7hs")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -6)
+texture = ExtResource("1_nst5e")
+hframes = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2.5)
+shape = SubResource("RectangleShape2D_venrv")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_b02ix")
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -4.5)
+shape = SubResource("RectangleShape2D_t56cl")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
