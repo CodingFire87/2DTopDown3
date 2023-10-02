@@ -1,8 +1,8 @@
 extends StaticBody2D
-class_name crate
+class_name Crate
+signal removed
 var open = false
 var minimap_icon = "alert"
-signal removed
 func _on_area_2d_body_entered(body):
 	if not open:
 		$AnimationPlayer.play("Open")

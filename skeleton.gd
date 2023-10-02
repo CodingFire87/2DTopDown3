@@ -1,5 +1,6 @@
 extends CharacterBody2D
-class_name Mob
+class_name mob
+signal removed
 var speed = 40
 enum states {IDLE, CHASE, ATTACK, DEAD, HURT}
 var state = states.IDLE
@@ -7,7 +8,6 @@ var player
 var health = 3
 var attacking = false
 var minimap_icon = "mob"
-signal removed
 func _physics_process(delta):
 		choose_action()
 		move_and_slide()

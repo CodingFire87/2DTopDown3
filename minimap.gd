@@ -2,7 +2,8 @@ extends MarginContainer
 class_name Minimap
 
 @export var player: Player
-@export var zoom = 1.5
+@export var zoom = 1.5:
+	set = set_zoom
 
 @onready var grid = $MarginContainer/Grid
 @onready var player_marker = $MarginContainer/Grid/PlayerMarker
@@ -39,4 +40,20 @@ func _process(delta):
 			markers[item].hide()
 		obj_pos = obj_pos.clamp(Vector2.ZERO, grid.size)
 		markers[item].position = obj_pos
+
+func _on_object_removed(object):
+	if object in markers:
+		markers[object].queue_free()
+		markers.erase(object)
+		
+func set_zoom(value):
+	zoom = clamp(value, 0.5, 5)
+	grid_scale = grid.size / (get_viewport_rect().size * zoom)
 	
+
+func _on_gui_input(event):
+	if event is InputEventMouseButton and event.pressed:
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+			zoom += 0.1
+		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			zoom -= 0.1

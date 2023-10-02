@@ -1,7 +1,7 @@
 extends StaticBody2D
 class_name crate
-var open = false
 signal removed
+var open = false
 var minimap_icon = "alert"
 
 func _on_area_2d_body_entered(body):

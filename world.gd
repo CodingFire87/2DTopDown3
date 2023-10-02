@@ -5,8 +5,11 @@ var trapped
 var power
 @export var Skeleton : PackedScene
 @export var reward : PackedScene
+@onready var minimap = $CanvasLayer/Minimap
 func _ready():
 	$"CanvasLayer/Power Tutorial".hide()
+	for object in get_tree().get_nodes_in_group("minimap_objects"):
+		object.removed.connect(minimap._on_object_removed)
 func _physics_process(delta):
 	if chest_opened:
 		if trapped:

@@ -1,5 +1,6 @@
 extends CharacterBody2D
 class_name Mob
+signal removed
 var speed = 35
 enum states {IDLE, CHASE, ATTACK, DEAD, HURT}
 var state = states.IDLE
@@ -8,7 +9,6 @@ var health = 3
 var attack = false
 var shoot_direction
 var minimap_icon = "mob"
-signal removed
 @export var projectile : PackedScene
 func _physics_process(delta):
 		choose_action()
